@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const mongoose = require("mongoose");
 
 //imports routes to be accessed from server
 const postRouter = require("./api/posts");
@@ -39,6 +40,12 @@ app.delete("/deletepost/:id", (req, res) => {
   res.status(200).json({ msg: `Deleted post: ${req.params.id}` });
 });
 */
+
+mongoose.connect(
+  process.env.MONGODB_URI,
+  { useNewUrlParser: true, useUnifiedTopology: true, autoIndex: true },
+  () => console.log("Connected to DB")
+);
 
 const PORT = process.env.PORT;
 

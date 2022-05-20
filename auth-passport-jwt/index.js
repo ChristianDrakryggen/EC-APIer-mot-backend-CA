@@ -4,6 +4,9 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 
+//import userRouter
+const userRouter = require("./api/user");
+
 //development env vars
 require("dotenv").config();
 
@@ -11,6 +14,7 @@ require("dotenv").config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
+app.use("/api", userRouter);
 
 mongoose.connect(
   process.env.MONGODB_URI,

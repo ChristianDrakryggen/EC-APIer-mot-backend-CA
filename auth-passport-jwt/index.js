@@ -5,8 +5,9 @@ const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 
-//import userRouter
+//import routers
 const userRouter = require("./api/user");
+const productRouter = require("./api/product");
 
 //development env vars
 require("dotenv").config();
@@ -15,10 +16,14 @@ require("dotenv").config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
-app.use("/api", userRouter);
+app.use("/api/user", userRouter);
+app.use("/api/product", productRouter);
 
-//static folder for serving html
-app.use(express.static(path.join(__dirname, "client")));
+//static folder for serving html etc - vanilla version
+//app.use(express.static(path.join(__dirname, "client")));
+
+//static folder for serving html etc - react version
+app.use(express.static(path.join(__dirname, "client-react/build")));
 
 mongoose.connect(
   process.env.MONGODB_URI,

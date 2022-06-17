@@ -15,6 +15,36 @@ const UserSchema = mongoose.Schema({
     enum: ["user", "admin"],
     required: true,
   },
+  firstname: {
+    type: String,
+  },
+  lastname: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  street: {
+    type: String,
+  },
+  zipCode: {
+    type: String,
+  },
+  town: {
+    type: String,
+  },
+  country: {
+    type: String,
+  },
+  orderHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Order",
+    },
+  ],
 });
 
 //middleware that runs before every mongodb save call via mongoose

@@ -4,6 +4,7 @@ const passport = require("passport");
 const passportConfig = require("../passport");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { findById } = require("../models/User");
 
 //development env vars
 require("dotenv").config();
@@ -77,10 +78,34 @@ userRouter.get(
   "/authenticated",
   passport.authenticate("user-rule", { session: false }),
   (req, res) => {
-    const { _id, username, role } = req.user;
+    const {
+      _id,
+      username,
+      role,
+      firstname,
+      lastname,
+      email,
+      phone,
+      street,
+      zipCode,
+      town,
+      country,
+    } = req.user;
     res.status(200).json({
       isAuthenticated: true,
-      user: { _id, username, role },
+      user: {
+        _id,
+        username,
+        role,
+        firstname,
+        lastname,
+        email,
+        phone,
+        street,
+        zipCode,
+        town,
+        country,
+      },
     });
   }
 );
@@ -94,6 +119,73 @@ userRouter.get(
     res
       .status(200)
       .json({ msg: { msgBody: "Successfully logged out", msgError: true } });
+  }
+);
+
+//update user
+userRouter.put(
+  "/update/:id",
+  passport.authenticate("user-rule", { session: false }),
+  (req, res) => {
+    const {
+      firstname,
+      lastname,
+      email,
+      phone,
+      street,
+      zipCode,
+      town,
+      country,
+    } = req.body;
+    User.findByIdAndUpdate(
+      { _id: req.params.id },
+      { firstname, lastname, email, phone, street, zipCode, town, country },
+      (err) => {
+        if (err) {
+          res.status(500).json({
+            msg: {
+              msgBody: "An error occured updating your account",
+              msgError: true,
+            },
+          });
+        } else {
+          res.status(200).json({
+            msg: {
+              msgBody: "Successfully updated account",
+              msgError: false,
+            },
+          });
+        }
+      }
+    );
+  }
+);
+
+//get order history
+userRouter.get(
+  "/getorderhistory",
+  passport.authenticate("user-rule", { session: false }),
+  (req, res) => {
+    User.findById({ _id: req.user._id })
+      .populate("orderHistory")
+      .exec((err, user) => {
+        if (err) {
+          res.status(500).json({
+            msg: {
+              msgBody: "An error occured retrieving order history",
+              msgError: true,
+            },
+          });
+        } else {
+          res.status(200).json({
+            orderHistory: user.orderHistory,
+            msg: {
+              msgBody: "Successfully retrieved order history",
+              msgError: false,
+            },
+          });
+        }
+      });
   }
 );
 

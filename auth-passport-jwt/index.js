@@ -10,7 +10,7 @@ const userRouter = require("./api/user");
 const productRouter = require("./api/product");
 const orderRouter = require("./api/order");
 
-//development env vars
+//development env vars, remove for production
 require("dotenv").config();
 
 //middleware

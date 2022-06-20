@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev": "nodemon index"
+    "dev": "nodemon index",
+    "install-react-client": "cd client-react && npm install",
+    "build-react-frontend": "cd client-react && npm run build",
+    "heroku-postbuild": "npm run install-react-client && npm run build-react-frontend"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.7.0",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

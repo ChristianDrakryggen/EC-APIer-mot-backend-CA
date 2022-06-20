@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { findById } = require("../models/User");
 
-//development env vars
+//development env vars, remove for production
 require("dotenv").config();
 
 //function that creates our json web token (cookie)
